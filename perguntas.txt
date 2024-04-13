@@ -1,0 +1,32 @@
+Sua empresa desenvolve software próprio?
+Seu ambiente contém múltiplos ambientes? (ex. produção, desenvolvimento, teste)
+Sua empresa permite acesso público a recursos do ambiente?
+Você usa o AWS CLI ou APIs?
+Você utiliza credenciais de longo prazo?
+Podem ser substituídas por credenciais de curto prazo?
+Suas aplicações utilizam bibliotecas ou dependências terceiras?
+Logs e eventos são gerenciados de forma centralizada?
+Sua empresa possui aplicações terceiras no ambiente?
+Sua empresa utiliza credenciais como SSH, API keys; DB credentials; OAuth; third-party services?
+Eventos são gerenciados de forma automatizada?
+Seu ambiente utiliza serviços não gerenciados?
+Seu ambiente utiliza EC2?
+Seu ambiente utiliza Lambda?
+Seu ambiente utiliza ECR?
+Seu ambiente utiliza RDS?
+Seu ambiente utiliza EKS?
+Seu ambiente utiliza S3?
+Seu ambiente utiliza ECS?
+Seu ambiente utiliza IoT?
+Seu ambiente possui serviços que se conectam a VPC? (Virtual Private Cloud)
+Sua empresa utiliza algum desses serviços?
+Há mais de um funcionário na empresa?
+Sua empresa utiliza um identity provider?
+Há necessidade em gerenciar identidades (funcionários e contratados) entre várias aplicações e sistemas?
+Sua empresa tem terceiros que acessam seu ambiente?
+Sua empresa armazena dados?
+Sua empresa precisa gerenciar chaves de criptografia?
+Sua empresa processa dados sensíveis, pessoais, cartão de crédito e similares?
+Sua empresa transmite dados?
+Seu ambiente está aberto a internet?
+Sua empresa transmite dados sensíveis através da internet?

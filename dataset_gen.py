@@ -2,7 +2,10 @@ import pandas as pd
 
 # Define the list of column names
 columns = [
-    'dev-01', 'dev-02', 'dev-03', 'dev-04', 'dev-05', 'dev-06', 'dev-07', 'dev-08', 'dev-09', 'dev-10', 'dev-11'
+    'dev-01', 'dev-02', 'dev-03', 'dev-04', 'dev-05', 'dev-06', 'dev-07', 'dev-08', 'dev-09', 'dev-10', 'dev-11',
+    'SEC01-BP01', 'SEC01-BP06', 'SEC02-BP02', 'SEC02-BP03', 'SEC02-BP05', 'SEC03-BP07', 'SEC03-BP08', 'SEC04-BP02',
+    'SEC04-BP03', 'SEC06-BP03', 'SEC11-BP01', 'SEC11-BP02', 'SEC11-BP03', 'SEC11-BP04', 'SEC11-BP05', 'SEC11-BP06',
+    'SEC11-BP07', 'SEC11-BP08'
     # 'serv-01', 'serv-02', 'serv-03', 'serv-04', 'serv-05', 'serv-06', 'serv-07', 'serv-08', 'serv-09', 'serv-10',
     # 'serv-11',
     # 'func-01', 'func-02', 'func-03', 'func-04',
@@ -2070,3 +2073,5 @@ filtered_df = df[~((df['dev-05'] == 0) & (df['dev-07'] != 1))]
 # Display the filtered DataFrame
 print("Filtered DataFrame:")
 print(filtered_df)
+
+filtered_df.to_csv("file_name.csv", sep='\t', encoding='utf-8')

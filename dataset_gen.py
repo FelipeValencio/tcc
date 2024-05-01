@@ -2067,11 +2067,11 @@ df = pd.DataFrame(data, columns=columns)
 
 print(df)
 
-filtered_df = df[~((df['dev-01'] == 0) & ((df['dev-02'] == 1) | (df['dev-07'] == 1)))]
-filtered_df = df[~((df['dev-05'] == 0) & (df['dev-07'] != 1))]
+# filtered_df = df[~((df['dev-01'] == 0) & ((df['dev-02'] == 1) | (df['dev-07'] == 1)))]
+# filtered_df = df[~((df['dev-05'] == 0) & (df['dev-07'] != 1))]
 
 # Display the filtered DataFrame
-print("Filtered DataFrame:")
-print(filtered_df)
+# print("Filtered DataFrame:")
+# print(filtered_df)
 
-filtered_df.to_csv("file_name.csv", sep='\t', encoding='utf-8')
+df.to_csv("file_name.csv", sep=',', encoding='utf-8', index=False)

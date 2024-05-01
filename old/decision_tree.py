@@ -4,7 +4,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 
-df = pd.read_csv('../dataframe_teste.csv')
+df = pd.read_csv('../datasets/dataframe_teste.csv')
 
 X = df[
     ['dev-01', 'dev-02', 'dev-03', 'dev-04', 'dev-05', 'dev-06', 'dev-07', 'dev-08', 'dev-09', 'dev-10', 'dev-11']]

@@ -18,7 +18,7 @@ OPTIMIZER = 'adam'
 
 
 def loadData():
-    data = pd.read_csv('dataframe_teste.csv')
+    data = pd.read_csv('../datasets/dataframe_teste.csv')
 
     data.columns = ['dev-01', 'dev-02', 'dev-03', 'dev-04', 'dev-05', 'dev-06', 'dev-07', 'dev-08', 'dev-09', 'dev-10',
                     'dev-11', 'SEC01-BP01', 'SEC01-BP06', 'SEC02-BP02', 'SEC02-BP03', 'SEC02-BP05', 'SEC03-BP07',

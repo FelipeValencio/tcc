@@ -8,7 +8,7 @@ df = pd.read_csv('../datasets/dataframe_teste.csv')
 
 X = df[
     ['dev-01', 'dev-02', 'dev-03', 'dev-04', 'dev-05', 'dev-06', 'dev-07', 'dev-08', 'dev-09', 'dev-10', 'dev-11']]
-Y = df["survived"]
+Y = df["SEC01-BP01"]
 
 X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.7, random_state=42)
 
@@ -21,3 +21,4 @@ fig, axes = plt.subplots(nrows=1, ncols=1, figsize=(8, 8), dpi=150)
 tree.plot_tree(tree_model, feature_names=X.columns, class_names=["1", "0"])
 
 plt.plot()
+plt.show()

@@ -1,0 +1,84 @@
+ID,Perguntas,Controles Sim,Controles não,Ponteiro Sim,Ponteiro Não
+dev-01,Sua empresa desenvolve software próprio?,"SEC01-BP06 Automate testing and validation of security controls in pipelines
+SEC11-BP01 Train for application security
+SEC11-BP02 Automate testing throughout the development and release lifecycle 
+SEC11-BP03 Perform regular penetration testing 
+SEC11-BP04 Manual code reviews 
+SEC11-BP06 Deploy software programmatically 
+SEC11-BP07 Regularly assess security properties of the pipelines
+SEC11-BP08 Build a program that embeds security ownership in workload teams",,dev-07,serv-10
+dev-02,"Seu ambiente contém múltiplos ambientes? (ex. produção, desenvolvimento, teste)",SEC01-BP01 Separate workloads using accounts ,,serv-10,serv-10
+dev-03,Sua empresa permite acesso público a recursos do ambiente?,"SEC03-BP07 Analyze public and cross-account access 
+SEC03-BP08 Share resources securely within your organization",,dev-04,dev-04
+dev-04,Você usa o AWS CLI ou APIs?,SEC02-BP02 Use temporary credentials ,,dev-01,dev-01
+dev-05,Você utiliza credenciais de longo prazo?,SEC02-BP05 Audit and rotate credentials periodically ,,dev-06,dev-03
+dev-06,Podem ser substituídas por credenciais de curto prazo?,,SEC02-BP05 Audit and rotate credentials periodically ,dev-03,dev-03
+dev-07,Suas aplicações utilizam bibliotecas ou dependências terceiras?,SEC11-BP05 Centralize services for packages and dependencies ,,dev-02,dev-02
+dev-08,Logs e eventos são gerenciados de forma centralizada?,,"SEC04-BP02 Analyze logs, findings, and metrics centrally ",dev-10,dev-11
+dev-09,Sua empresa possui aplicações terceiras no ambiente?,SEC11-BP03 Perform regular penetration testing ,,dev-05,dev-05
+dev-10,"Sua empresa utiliza credenciais como SSH, API keys; DB credentials; OAuth; third-party services?",SEC02-BP03 Store and use secrets securely,,dev-09,dev-09
+dev-11,Eventos são gerenciados de forma automatizada?,,"SEC04-BP02 Analyze logs, findings, and metrics centrally 
+SEC04-BP03 Automate response to events ",dev-10,dev-10
+serv-01,Seu ambiente utiliza serviços não gerenciados?,SEC06-BP03 Implement managed services ,,serv-02,serv-03
+serv-02,Seu ambiente utiliza EC2?,"SEC05-BP01 Create network layers 
+SEC05-BP02 Control traffic at all layers 
+SEC05-BP03 Automate network protection 
+SEC05-BP04 Implement inspection and protection 
+SEC06-BP01 Perform vulnerability management 
+SEC06-BP02 Reduce attack surface 
+SEC06-BP03 Implement managed services 
+SEC06-BP04 Automate compute protection 
+SEC06-BP05 Enable people to perform actions at a distance 
+SEC08-BP03 Automate data at rest protection 
+SEC09-BP04 Authenticate network communications ",,,
+serv-03,Seu ambiente utiliza Lambda?,"SEC05-BP01 Create network layers 
+SEC05-BP02 Control traffic at all layers 
+SEC05-BP03 Automate network protection 
+SEC05-BP04 Implement inspection and protection 
+SEC06-BP02 Reduce attack surface 
+SEC06-BP06 Validate software integrity 
+SEC09-BP04 Authenticate network communications ",,serv-04,serv-04
+serv-04,Seu ambiente utiliza ECR?,"SEC02-BP03 Store and use secrets securely
+SEC06-BP06 Validate software integrity ",,serv-05,serv-05
+serv-05,Seu ambiente utiliza RDS?,"SEC02-BP03 Store and use secrets securely
+SEC05-BP01 Create network layers 
+SEC05-BP02 Control traffic at all layers 
+SEC05-BP03 Automate network protection 
+SEC05-BP04 Implement inspection and protection 
+SEC07-BP01 Identify the data within your workload 
+SEC07-BP03 Automate identification and classification 
+SEC07-BP04 Define data lifecycle management 
+SEC08-BP02 Enforce encryption at rest 
+SEC08-BP03 Automate data at rest protection 
+SEC09-BP04 Authenticate network communications ",,serv-06,serv-06
+serv-06,Seu ambiente utiliza EKS?,"SEC06-BP01 Perform vulnerability management 
+SEC06-BP02 Reduce attack surface 
+SEC06-BP06 Validate software integrity ",,serv-07,serv-07
+serv-07,Seu ambiente utiliza S3?,"SEC08-BP02 Enforce encryption at rest 
+SEC08-BP03 Automate data at rest protection ",,serv-08,serv-08
+serv-08,Seu ambiente utiliza ECS?,"SEC06-BP01 Perform vulnerability management 
+SEC06-BP02 Reduce attack surface ",,serv-09,serv-09
+serv-09,Seu ambiente utiliza IoT?,SEC06-BP06 Validate software integrity ,,,
+serv-10,Seu ambiente possui serviços que se conectam a VPC? (Virtual Private Cloud),"SEC05-BP01 Create network layers 
+SEC05-BP02 Control traffic at all layers 
+SEC05-BP03 Automate network protection 
+SEC05-BP04 Implement inspection and protection 
+SEC09-BP04 Authenticate network communications ",,serv-11,serv-11
+serv-11,Sua empresa utiliza algum desses serviços? ,SEC02-BP02 Use temporary credentials ,,serv-01,serv-01
+func-01,Há mais de um funcionário na empresa?,"SEC02-BP04 Rely on a centralized identity provider 
+SEC03-BP02 Grant least privilege access ",,,
+func-02,Sua empresa utiliza um identity provider?,"SEC02-BP02 Use temporary credentials 
+SEC03-BP03 Establish emergency access process ",,,
+func-03,Há necessidade em gerenciar identidades (funcionários e contratados) entre várias aplicações e sistemas? ,SEC02-BP04 Rely on a centralized identity provider ,,,
+func-04,Sua empresa tem terceiros que acessam seu ambiente?,SEC03-BP09 Share resources securely with a third party,,,
+nat-01,Sua empresa armazena dados?,"SEC08-BP02 Enforce encryption at rest 
+SEC08-BP04 Enforce access control 
+SEC09-BP03 Automate detection of unintended data access ",,,
+nat-02,Sua empresa precisa gerenciar chaves de criptografia? ,SEC08-BP01 Implement secure key management,,,
+nat-03,"Sua empresa processa dados sensíveis, pessoais, cartão de crédito e similares? ","SEC07-BP01 Identify the data within your workload 
+SEC07-BP03 Automate identification and classification 
+SEC07-BP04 Define data lifecycle management ",,,
+nat-04,Sua empresa transmite dados?,SEC09-BP03 Automate detection of unintended data access ,,,
+nat-05,Seu ambiente está aberto a internet?,"SEC05-BP01 Create network layers 
+SEC05-BP02 Control traffic at all layers ",,,
+nat-06,Sua empresa transmite dados sensíveis através da internet?,SEC09-BP02 Enforce encryption in transit ,,,

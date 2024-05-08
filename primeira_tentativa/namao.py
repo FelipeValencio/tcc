@@ -1,6 +1,6 @@
 import pandas as pd
 
-df = pd.read_csv('datasets/apenasRespostas.csv', index_col=False)
+df = pd.read_csv('../datasets/apenasRespostas.csv', index_col=False)
 
 for i, row in df.iterrows():
     if df.at[i, 'dev-08'] == 0:

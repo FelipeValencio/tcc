@@ -1,4 +1,12 @@
 ID,Perguntas,Controles Sim,Controles não,Ponteiro Sim,Ponteiro Não
+dev-08,Logs e eventos são gerenciados de forma centralizada?,,"SEC04-BP02 Analyze logs, findings, and metrics centrally ",dev-10,dev-11
+dev-02,"Seu ambiente contém múltiplos ambientes? (ex. produção, desenvolvimento, teste)",SEC01-BP01 Separate workloads using accounts ,,serv-10,serv-10
+dev-03,Sua empresa permite acesso público a recursos do ambiente?,"SEC03-BP07 Analyze public and cross-account access 
+SEC03-BP08 Share resources securely within your organization",,dev-04,dev-04
+dev-04,Você usa o AWS CLI ou APIs?,SEC02-BP02 Use temporary credentials ,,dev-01,dev-01
+dev-05,Você utiliza credenciais de longo prazo?,SEC02-BP05 Audit and rotate credentials periodically ,,dev-06,dev-03
+dev-06,Podem ser substituídas por credenciais de curto prazo?,,SEC02-BP05 Audit and rotate credentials periodically ,dev-03,dev-03
+dev-07,Suas aplicações utilizam bibliotecas ou dependências terceiras?,SEC11-BP05 Centralize services for packages and dependencies ,,dev-02,dev-02
 dev-01,Sua empresa desenvolve software próprio?,"SEC01-BP06 Automate testing and validation of security controls in pipelines
 SEC11-BP01 Train for application security
 SEC11-BP02 Automate testing throughout the development and release lifecycle 
@@ -7,14 +15,6 @@ SEC11-BP04 Manual code reviews
 SEC11-BP06 Deploy software programmatically 
 SEC11-BP07 Regularly assess security properties of the pipelines
 SEC11-BP08 Build a program that embeds security ownership in workload teams",,dev-07,serv-10
-dev-02,"Seu ambiente contém múltiplos ambientes? (ex. produção, desenvolvimento, teste)",SEC01-BP01 Separate workloads using accounts ,,serv-10,serv-10
-dev-03,Sua empresa permite acesso público a recursos do ambiente?,"SEC03-BP07 Analyze public and cross-account access 
-SEC03-BP08 Share resources securely within your organization",,dev-04,dev-04
-dev-04,Você usa o AWS CLI ou APIs?,SEC02-BP02 Use temporary credentials ,,dev-01,dev-01
-dev-05,Você utiliza credenciais de longo prazo?,SEC02-BP05 Audit and rotate credentials periodically ,,dev-06,dev-03
-dev-06,Podem ser substituídas por credenciais de curto prazo?,,SEC02-BP05 Audit and rotate credentials periodically ,dev-03,dev-03
-dev-07,Suas aplicações utilizam bibliotecas ou dependências terceiras?,SEC11-BP05 Centralize services for packages and dependencies ,,dev-02,dev-02
-dev-08,Logs e eventos são gerenciados de forma centralizada?,,"SEC04-BP02 Analyze logs, findings, and metrics centrally ",dev-10,dev-11
 dev-09,Sua empresa possui aplicações terceiras no ambiente?,SEC11-BP03 Perform regular penetration testing ,,dev-05,dev-05
 dev-10,"Sua empresa utiliza credenciais como SSH, API keys; DB credentials; OAuth; third-party services?",SEC02-BP03 Store and use secrets securely,,dev-09,dev-09
 dev-11,Eventos são gerenciados de forma automatizada?,,"SEC04-BP02 Analyze logs, findings, and metrics centrally 

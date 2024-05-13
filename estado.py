@@ -33,6 +33,10 @@ def maquina_de_estado(tabela_estado):
         print("Controles aplicáveis:\n", controles)
         print("\n")
 
+    with open('output.txt', 'w') as f:
+        for line in controles:
+            f.write(f"{line}\n")
+
 
 def encontrar_indice_por_id(tabela, id_desejado):
     for indice, linha in enumerate(tabela):

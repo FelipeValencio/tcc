@@ -9,36 +9,31 @@ def ler_tabela(nome_arquivo):
 
 
 def validar_tabela(tabela):
-    ids_encontrados = set()
-    perguntas_encontradas = set()
+    # Dicionário para armazenar as colunas marcadas como obrigatórias e seu índice na tabela
+    colunas_obrigatorias = {}
 
-    for num_linha, linha in enumerate(tabela[1:]):
-        if not linha[0]:
-            print(f"Erro: O campo ID é obrigatório e está vazio (Erro na linha {num_linha + 2}).")
-            return False
-        else:
-            # Verificar IDs duplicados
-            id_atual = linha[0]
-            if id_atual in ids_encontrados:
-                print(f"Erro: ID '{id_atual}' duplicado encontrado na linha {num_linha + 2}.")
+    # Encontrar as colunas marcadas como obrigatórias
+    for indice, valor in enumerate(tabela[1]):
+        if valor == "obrigatorio":
+            colunas_obrigatorias[indice] = tabela[0][indice]  # Armazenar o nome da próxima coluna
+
+    # Dicionário para armazenar as colunas marcadas de recomendações e seu índice na tabela
+    colunas_recomendacoes = {}
+
+    # Encontrar as colunas marcadas como obrigatórias
+    for indice, valor in enumerate(tabela[0]):
+        if valor == "Recomendação Sim":
+            colunas_recomendacoes[indice] = tabela[0][indice]  # Armazenar o nome da próxima coluna
+        if valor == "Recomendação Não":
+            colunas_recomendacoes[indice] = tabela[0][indice]  # Armazenar o nome da próxima coluna
+
+    for num_linha, linha in enumerate(tabela[2:]):
+        for indice_coluna in colunas_obrigatorias.keys():
+            if not linha[indice_coluna]:
+                print(f"Erro: O campo '{colunas_obrigatorias[indice_coluna]}' é obrigatório e está vazio (Erro na linha {num_linha + 3}).")
                 return False
-            else:
-                ids_encontrados.add(id_atual)
-
-        if not linha[1]:
-            print(f"Erro: O campo Perguntas é obrigatório e está vazio (Erro na linha {num_linha + 2}).")
-            return False
-        else:
-            # Verificar perguntas duplicados
-            pergunta_atual = linha[1]
-            if id_atual in perguntas_encontradas:
-                print(f"Erro: ID '{pergunta_atual}' duplicado encontrado na linha {num_linha + 2}.")
-                return False
-            else:
-                perguntas_encontradas.add(pergunta_atual)
-
-        if not linha[2] and not linha[3]:
-            print(f"Erro: O campo Recomendações é obrigatório e está vazio (Erro na linha {num_linha + 2}).")
+        if not linha[list(colunas_recomendacoes.keys())[0]] and not linha[list(colunas_recomendacoes.keys())[1]]:
+            print(f"Erro: O campo Recomendações é obrigatório e está vazio (Erro na linha {num_linha + 3}).")
             return False
 
     return True
@@ -50,7 +45,7 @@ def maquina_de_estado(tabela_estado):
         return
 
     controles = []
-    estado_atual = 1
+    estado_atual = 2
     while (estado_atual is not None or isinstance(estado_atual, int)) and estado_atual < len(tabela_estado):
         print("Estado atual: " + str(estado_atual))
         pergunta = tabela_estado[estado_atual][1]
@@ -85,4 +80,4 @@ def encontrar_indice_por_id(tabela, id_desejado):
     return None
 
 
-maquina_de_estado(ler_tabela('tabela_estado.csv'))
+maquina_de_estado(ler_tabela('tabela_estadov2.csv'))

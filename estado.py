@@ -73,6 +73,8 @@ def maquina_de_estado(tabela_estado):
         print("Controles aplicáveis:\n", controles)
         print("\n")
 
+    controles = filter(None, controles)
+
     with open('output.txt', 'w') as f:
         for line in controles:
             f.write(f"{line}\n")

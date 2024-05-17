@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:csv/csv.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -11,6 +10,8 @@ class MaquinaEstado {
   late List<int> estadosPassados = [];
 
   List<String> controles = [];
+
+  Iterable<String> ultimosControles = [];
 
   Future<List<List<String>>> lerTabela(String nomeArquivo) async {
     String content = await rootBundle.loadString(nomeArquivo);
@@ -70,60 +71,48 @@ class MaquinaEstado {
     return true;
   }
 
+  void voltar() {
+    if(estadosPassados.length <= 1) {
+      estadoAtual = 1;
+      return;
+    }
+
+    // Implementar codigo para remover os ultimos controles adicionados
+    // Cuidado para não remover controles adicionados pela ultima pergunta mas que já tinham sido adicionados também por uma pergunta anterior!
+    // controles.removeRange();
+
+    estadoAtual = estadosPassados.removeLast();
+  }
+
   String getPergunta() {
     return tabelaEstado[estadoAtual][1];
   }
 
   void respostaSim() {
+    estadosPassados.add(estadoAtual);
     var controlesSim = tabelaEstado[estadoAtual][2];
 
-    controles.addAll(controlesSim.split("\n").where((c) =>
-    c.trim().isNotEmpty));
+    ultimosControles = controlesSim.split("\n").where((c) =>
+      c.trim().isNotEmpty);
+
+    controles.addAll(ultimosControles);
+
     estadoAtual =
         encontrarIndicePorId(tabelaEstado, tabelaEstado[estadoAtual][4]);
   }
 
   void respostaNao() {
+    estadosPassados.add(estadoAtual);
     var controlesNao = tabelaEstado[estadoAtual][3];
 
-    controles.addAll(controlesNao.split("\n").where((c) =>
-      c.trim().isNotEmpty));
+    ultimosControles = controlesNao.split("\n").where((c) =>
+    c.trim().isNotEmpty);
+
+    controles.addAll(ultimosControles);
+
     estadoAtual =
         encontrarIndicePorId(tabelaEstado, tabelaEstado[estadoAtual][5]);
   }
-
-  // void maquinaDeEstado(List<List<String>> tabelaEstado) {
-  //   // while (estadoAtual < tabelaEstado.length) {
-  //   print("Estado atual: $estadoAtual");
-  //   var pergunta = tabelaEstado[estadoAtual][1];
-  //   var controlesSim = tabelaEstado[estadoAtual][2];
-  //   var controlesNao = tabelaEstado[estadoAtual][3];
-  //   print("Pergunta: $pergunta");
-  //   var resposta = "sim";
-  //
-  //   if (resposta == 'sim') {
-  //     controles.addAll(controlesSim.split("\n").where((c) =>
-  //       c.trim().isNotEmpty));
-  //     estadoAtual =
-  //         encontrarIndicePorId(tabelaEstado, tabelaEstado[estadoAtual][4]);
-  //   } else if (resposta == 'não' || resposta == 'nao') {
-  //     controles.addAll(controlesNao.split("\n").where((c) =>
-  //       c.trim().isNotEmpty));
-  //     estadoAtual =
-  //         encontrarIndicePorId(tabelaEstado, tabelaEstado[estadoAtual][5]);
-  //   } else {
-  //     print("Resposta inválida. Por favor, responda com 'Sim' ou 'Não'.");
-  //     // continue;
-  //   }
-  //
-  //   print("Controles aplicáveis:\n $controles\n");
-  // // }
-  //
-  //   controles.removeWhere((control) => control.isEmpty);
-  //
-  //   // var output = webFile.File('output.txt');
-  //   // output.writeAsStringSync(controles.join('\n'));
-  // }
 
   int encontrarIndicePorId(List<List<String>> tabela, String idDesejado) {
     for (var indice = 0; indice < tabela.length; indice++) {
@@ -133,4 +122,37 @@ class MaquinaEstado {
     }
     throw StateError("Não há mais perguntas no estado atual.");
   }
+
+// void maquinaDeEstado(List<List<String>> tabelaEstado) {
+//   // while (estadoAtual < tabelaEstado.length) {
+//   print("Estado atual: $estadoAtual");
+//   var pergunta = tabelaEstado[estadoAtual][1];
+//   var controlesSim = tabelaEstado[estadoAtual][2];
+//   var controlesNao = tabelaEstado[estadoAtual][3];
+//   print("Pergunta: $pergunta");
+//   var resposta = "sim";
+//
+//   if (resposta == 'sim') {
+//     controles.addAll(controlesSim.split("\n").where((c) =>
+//       c.trim().isNotEmpty));
+//     estadoAtual =
+//         encontrarIndicePorId(tabelaEstado, tabelaEstado[estadoAtual][4]);
+//   } else if (resposta == 'não' || resposta == 'nao') {
+//     controles.addAll(controlesNao.split("\n").where((c) =>
+//       c.trim().isNotEmpty));
+//     estadoAtual =
+//         encontrarIndicePorId(tabelaEstado, tabelaEstado[estadoAtual][5]);
+//   } else {
+//     print("Resposta inválida. Por favor, responda com 'Sim' ou 'Não'.");
+//     // continue;
+//   }
+//
+//   print("Controles aplicáveis:\n $controles\n");
+// // }
+//
+//   controles.removeWhere((control) => control.isEmpty);
+//
+//   // var output = webFile.File('output.txt');
+//   // output.writeAsStringSync(controles.join('\n'));
+// }
 }

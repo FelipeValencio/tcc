@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
       print("Erro de Estado: ${e.toString()}");
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const ResultPage(results: [])),
+        MaterialPageRoute(builder: (context) => ResultPage(resultados: maquinaEstado.controles,)),
       );
     }
   }
@@ -75,7 +75,8 @@ class _MyHomePageState extends State<MyHomePage> {
       print("Erro de Estado: ${e.toString()}");
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const ResultPage(results: [])),
+        MaterialPageRoute(builder: (context) => ResultPage(
+          resultados: maquinaEstado.controles,)),
       );
     }
   }
@@ -86,16 +87,17 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void voltar() {
+    maquinaEstado.voltar();
+    getPergunta();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
-        actions: [
-          IconButton(onPressed: () =>
-              print("back implementar"), icon: const Icon(Icons.arrow_back))
-        ],
       ),
       body: Center(
         child: Column(
@@ -134,6 +136,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
               ],
+            ),
+            const SizedBox(height: 50,),
+            ElevatedButton.icon(
+              onPressed: () => voltar(),
+              style: ElevatedButton.styleFrom(
+                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                elevation: 0
+              ),
+              icon: const Icon(Icons.arrow_back),
+              label: const Text(
+                "Voltar",
+                style: TextStyle(fontSize: 30),
+              ),
             ),
           ],
         ),

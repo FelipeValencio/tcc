@@ -1,15 +1,27 @@
 import 'package:flutter/material.dart';
 
 class ResultPage extends StatelessWidget {
-  final List<ResultItem> results;
 
-  const ResultPage({super.key, required this.results});
+  List<String> resultados;
+
+  late List<ResultItem> results = [];
+
+  ResultPage({super.key, required this.resultados}) {
+    buildResults();
+  }
+
+  void buildResults() {
+    results.clear();
+    for (String r in resultados){
+      results.add(ResultItem(description: r, link: 'Link 1'));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Results'),
+        title: const Text('Resultados'),
       ),
       body: ListView.builder(
         itemCount: results.length,
@@ -24,12 +36,12 @@ class ResultPage extends StatelessWidget {
                   children: [
                     Text(
                       'Description: ${results[index].description}',
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
-                    SizedBox(height: 8),
+                    const SizedBox(height: 8),
                     Text(
                       'Link: ${results[index].link}',
-                      style: TextStyle(fontSize: 16),
+                      style: const TextStyle(fontSize: 16),
                     ),
                   ],
                 ),
@@ -47,17 +59,4 @@ class ResultItem {
   final String link;
 
   ResultItem({required this.description, required this.link});
-}
-
-void main() {
-  runApp(MaterialApp(
-    home: ResultPage(
-      results: [
-        ResultItem(description: 'Description 1', link: 'Link 1'),
-        ResultItem(description: 'Description 2', link: 'Link 2'),
-        ResultItem(description: 'Description 3', link: 'Link 3'),
-        // Add more ResultItems here as needed
-      ],
-    ),
-  ));
 }

@@ -14,7 +14,7 @@ class MaquinaEstado {
 
   Future<bool> validarTabela() async {
 
-    tabelaEstado = await Util.lerTabela("/tabela_estado.csv");
+    tabelaEstado = await Util.lerTabela("tabela_estado.csv");
 
     var idsEncontrados = <String>{};
     var perguntasEncontradas = <String>{};

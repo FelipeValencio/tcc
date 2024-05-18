@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:plat_praticas/maquina_estado.dart';
 import 'package:plat_praticas/resultados.dart';
+import 'package:plat_praticas/util.dart';
 
 void main() {
   runApp(const MyApp());
@@ -47,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void carregarTabela() async {
-    await maquinaEstado.lerTabela("/tabela_estado.csv");
+    await maquinaEstado.validarTabela();
 
     setState(() {
       perguntaAtual = maquinaEstado.getPergunta();
@@ -62,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
       print("Erro de Estado: ${e.toString()}");
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ResultPage(resultados: maquinaEstado.controles,)),
+        MaterialPageRoute(builder: (context) => ResultPage(recomendacoes: maquinaEstado.controles,)),
       );
     }
   }
@@ -76,7 +77,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ResultPage(
-          resultados: maquinaEstado.controles,)),
+          recomendacoes: maquinaEstado.controles,)),
       );
     }
   }

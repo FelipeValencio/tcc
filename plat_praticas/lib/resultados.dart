@@ -30,6 +30,7 @@ class ResultPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Resultados'),
@@ -54,55 +55,88 @@ class ResultPage extends StatelessWidget {
             itemBuilder: (context, index) {
               return Column(
                 children: [
-                  ExpansionTile(
-                    iconColor: definirCor(snapshot.data![index].prioridade),
-                    title: Text(snapshot.data![index].recomendacao),
-                    collapsedIconColor: definirCor(snapshot.data![index].prioridade),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                  SizedBox(
+                    width: MediaQuery.of(context).size.width * 0.80,
+                    child: Card(
+                      elevation: 2, // Adjust elevation to match the card
+                      margin: EdgeInsets.zero, // Remove default card margin
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4), // Adjust border radius to match the card
+                        side: BorderSide(color: Colors.grey.shade200), // Match the card's border color
+                      ),
+                      child: IntrinsicHeight(
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Text(
-                              'Descrição: ${snapshot.data![index].descricao}',
-                              style: const TextStyle(fontSize: 16),
+                            Container(
+                              width: 5,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(4),
+                                color: definirCor(snapshot.data![index].prioridade),
+                              ),
                             ),
-                            const SizedBox(height: 8),
-                            InkWell(
-                              onTap: () => launchUrl(Uri.parse(snapshot.data![index].link)),
-                              child: Text(
-                                snapshot.data![index].link,
-                                style: const TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.blueAccent,
-                                  decoration: TextDecoration.underline,
+                            Flexible(
+                              child: Theme(
+                                data: ThemeData().copyWith(dividerColor: Colors.transparent),
+                                child: ExpansionTile(
+                                  iconColor: definirCor(snapshot.data![index].prioridade),
+                                  title: Text(
+                                    snapshot.data![index].recomendacao,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  collapsedIconColor: definirCor(snapshot.data![index].prioridade),
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Descrição: ${snapshot.data![index].descricao}',
+                                            style: const TextStyle(fontSize: 16),
+                                          ),
+                                          const SizedBox(height: 8),
+                                          InkWell(
+                                            onTap: () => launchUrl(Uri.parse(snapshot.data![index].link)),
+                                            child: Text(
+                                              snapshot.data![index].link,
+                                              style: const TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.blueAccent,
+                                                decoration: TextDecoration.underline,
+                                              ),
+                                            ),
+                                          ),
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            children: [
+                                              const Text(
+                                                'Prioridade de implementação: ',
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.bold
+                                                ),
+                                              ),
+                                              Text(
+                                                snapshot.data![index].prioridade.trim(),
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: definirCor(snapshot.data![index].prioridade)
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'Prioridade de implementação: ',
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold
-                                  ),
-                                ),
-                                Text(
-                                  snapshot.data![index].prioridade.trim(),
-                                  style: TextStyle(
-                                    fontSize: 16,
-                                    color: definirCor(snapshot.data![index].prioridade)
-                                  ),
-                                ),
-                              ],
-                            )
                           ],
                         ),
                       ),
-                    ],
+                    ),
                   ),
                   const SizedBox(height: 10),
                 ],

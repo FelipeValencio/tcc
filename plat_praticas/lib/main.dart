@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:plat_praticas/maquina_estado.dart';
 import 'package:plat_praticas/resultados.dart';
-import 'package:plat_praticas/util.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,13 +13,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Questionário de práticas para ambientes cloud AWS',
       theme: ThemeData(
 
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Questionário de práticas para ambientes cloud AWS'),
     );
   }
 }
@@ -106,6 +105,7 @@ class _MyHomePageState extends State<MyHomePage> {
           children: <Widget>[
             SizedBox(
               height: 150,
+              width: MediaQuery.of(context).size.width * 0.75,
               child: Text(
                 perguntaAtual,
                 textAlign: TextAlign.center,
@@ -156,4 +156,5 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+
 }

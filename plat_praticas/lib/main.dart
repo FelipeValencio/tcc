@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:plat_praticas/maquina_estado.dart';
 import 'package:plat_praticas/resultados.dart';
 
+import 'mensagemErro.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -9,7 +11,6 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,11 +48,20 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void carregarTabela() async {
-    await maquinaEstado.validarTabela();
+    try {
+      await maquinaEstado.validarTabela();
 
-    setState(() {
-      perguntaAtual = maquinaEstado.getPergunta();
-    });
+      setState(() {
+        perguntaAtual = maquinaEstado.getPergunta();
+      });
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => ErrorMessageDialog(
+          errorMessage: e.toString(),
+        ),
+      );
+    }
   }
 
   void respondeuSim() {
@@ -63,6 +73,13 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ResultPage(recomendacoes: maquinaEstado.controles,)),
+      );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => ErrorMessageDialog(
+          errorMessage: e.toString(),
+        ),
       );
     }
   }
@@ -78,18 +95,43 @@ class _MyHomePageState extends State<MyHomePage> {
         MaterialPageRoute(builder: (context) => ResultPage(
           recomendacoes: maquinaEstado.controles,)),
       );
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => ErrorMessageDialog(
+          errorMessage: e.toString(),
+        ),
+      );
     }
   }
 
   void getPergunta() {
-    setState(() {
-      perguntaAtual = maquinaEstado.getPergunta();
-    });
+    try {
+      setState(() {
+        perguntaAtual = maquinaEstado.getPergunta();
+      });
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => ErrorMessageDialog(
+          errorMessage: e.toString(),
+        ),
+      );
+    }
   }
 
   void voltar() {
-    maquinaEstado.voltar();
-    getPergunta();
+    try {
+      maquinaEstado.voltar();
+      getPergunta();
+    } catch (e) {
+      showDialog(
+        context: context,
+        builder: (context) => ErrorMessageDialog(
+          errorMessage: e.toString(),
+        ),
+      );
+    }
   }
 
   @override

@@ -12,7 +12,7 @@ class MaquinaEstado {
 
   List<List<String>> controlesPassados = [];
 
-  Future<bool> validarTabela() async {
+  Future<void> validarTabela() async {
 
     tabelaEstado = await Util.lerTabela("tabela_estado.csv");
 
@@ -54,8 +54,6 @@ class MaquinaEstado {
             "${numLinha + 1}).");
       }
     }
-
-    return true;
   }
 
   void voltar() {

@@ -2,20 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:plat_praticas/util.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-import 'mensagemErro.dart';
+import 'mensagem_erro.dart';
 
 class ResultPage extends StatelessWidget {
 
   late List<String> recomendacoes;
+  late List<String> recomendacoesPadrao;
 
   late List<List<String>> tabelaRecomendacoes;
 
-  ResultPage({super.key, required this.recomendacoes});
+  ResultPage({super.key, required this.recomendacoes, required this.recomendacoesPadrao});
 
   Future<List<ResultItem>> buildResults() async {
     tabelaRecomendacoes = await Util.lerTabela("tabela_recomendacoes.csv");
 
     List<ResultItem> results = [];
+
+    recomendacoes.addAll(recomendacoesPadrao);
 
     for (String r in recomendacoes){
       int indiceRec = Util.encontrarIndicePorId(tabelaRecomendacoes, r);
@@ -23,6 +26,7 @@ class ResultPage extends StatelessWidget {
         recomendacao: tabelaRecomendacoes[indiceRec][0],
         prioridade: tabelaRecomendacoes[indiceRec][3],
         descricao: tabelaRecomendacoes[indiceRec][2],
+        padrao: recomendacoesPadrao.contains(r),
         link: tabelaRecomendacoes[indiceRec][1]),
       );
     }
@@ -36,11 +40,11 @@ class ResultPage extends StatelessWidget {
         SizedBox(
           width: MediaQuery.of(context).size.width * 0.80,
           child: Card(
-            elevation: 2, // Adjust elevation to match the card
-            margin: EdgeInsets.zero, // Remove default card margin
+            elevation: 2,
+            margin: EdgeInsets.zero,
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4), // Adjust border radius to match the card
-              side: BorderSide(color: Colors.grey.shade200), // Match the card's border color
+              borderRadius: BorderRadius.circular(4),
+              side: BorderSide(color: Colors.grey.shade200),
             ),
             child: IntrinsicHeight(
               child: Row(
@@ -154,19 +158,39 @@ class ResultPage extends StatelessWidget {
             return const SizedBox.shrink();
           }
 
-          // Ordena os dados por prioridade
-          snapshot.data!.sort((a, b) {
-            // Define a ordem de prioridade: Alta > Média > Baixa
-            Map<String, int> priorityOrder = {'Alta': 3, 'Média': 2, 'Baixa': 1};
+          List<ResultItem> standardControls = [];
+          List<ResultItem> assessmentControls = [];
+          for (var item in snapshot.data!) {
+            if (item.padrao) {
+              standardControls.add(item);
+            } else {
+              assessmentControls.add(item);
+            }
+          }
 
-            return priorityOrder[b.prioridade.trim()]!.compareTo(priorityOrder[a.prioridade.trim()]!);
-          });
+          // Sort the lists by priority
+          Map<String, int> priorityOrder = {'Alta': 3, 'Média': 2, 'Baixa': 1};
+          standardControls.sort((a, b) => priorityOrder[b.prioridade.trim()]!.compareTo(priorityOrder[a.prioridade.trim()]!));
+          assessmentControls.sort((a, b) => priorityOrder[b.prioridade.trim()]!.compareTo(priorityOrder[a.prioridade.trim()]!));
 
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              return customExpansionTile(snapshot.data![index], context);
-            },
+          return ListView(
+            children: [
+              Theme(
+                data: ThemeData().copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  title: const Text('Práticas recomendadas a partir das respostas do questionário'),
+                  initiallyExpanded: true,
+                  children: assessmentControls.map((item) => customExpansionTile(item, context)).toList(),
+                ),
+              ),
+              Theme(
+                data: ThemeData().copyWith(dividerColor: Colors.transparent),
+                child: ExpansionTile(
+                  title: const Text('Práticas recomendadas por padrão'),
+                  children: standardControls.map((item) => customExpansionTile(item, context)).toList(),
+                ),
+              ),
+            ],
           );
         },
       ),
@@ -193,8 +217,9 @@ class ResultItem {
   final String descricao;
   final String link;
   final String prioridade;
+  final bool padrao;
 
   ResultItem({required this.recomendacao,
     required this.descricao, required this.link,
-    required this.prioridade});
+    required this.prioridade, required this.padrao});
 }

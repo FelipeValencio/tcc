@@ -2,13 +2,15 @@ import 'package:plat_praticas/util.dart';
 
 class MaquinaEstado {
 
-  int estadoAtual = 1;
+  int estadoAtual = 2;
 
   late List<List<String>> tabelaEstado;
 
   late List<int> estadosPassados = [];
 
   List<String> controles = [];
+
+  List<String> controlesPadrao = [];
 
   List<List<String>> controlesPassados = [];
 
@@ -49,16 +51,16 @@ class MaquinaEstado {
         }
       }
 
-      if (linha[2].isEmpty && linha[3].isEmpty) {
-        throw("Erro: O campo Recomendações é obrigatório e está vazio (Erro na linha "
-            "${numLinha + 1}).");
-      }
+      // if (linha[2].isEmpty && linha[3].isEmpty) {
+      //   throw("Erro: O campo Recomendações é obrigatório e está vazio (Erro na linha "
+      //       "${numLinha + 1}).");
+      // }
     }
   }
 
   void voltar() {
     if(estadosPassados.length <= 1) {
-      estadoAtual = 1;
+      estadoAtual = 2;
       controles = [];
       return;
     }
@@ -101,5 +103,14 @@ class MaquinaEstado {
 
   List<String> copiaLiteral(List<String> list) {
     return List<String>.from(list);
+  }
+
+  void listarControlesPadroes() {
+    var controlesPad = tabelaEstado[1][2];
+
+    controlesPadrao.addAll(controlesPad.split('\n').where((c) {
+      String trimmed = c.trim();
+      return trimmed.isNotEmpty && !controlesPadrao.contains(trimmed);
+    }));
   }
 }

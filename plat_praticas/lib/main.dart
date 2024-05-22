@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:plat_praticas/maquina_estado.dart';
 import 'package:plat_praticas/resultados.dart';
 
-import 'mensagemErro.dart';
+import 'mensagem_erro.dart';
 
 void main() {
   runApp(const MyApp());
@@ -50,6 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void carregarTabela() async {
     try {
       await maquinaEstado.validarTabela();
+      maquinaEstado.listarControlesPadroes();
 
       setState(() {
         perguntaAtual = maquinaEstado.getPergunta();
@@ -72,7 +73,9 @@ class _MyHomePageState extends State<MyHomePage> {
       print("Erro de Estado: ${e.toString()}");
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => ResultPage(recomendacoes: maquinaEstado.controles,)),
+        MaterialPageRoute(builder: (context) => ResultPage(
+          recomendacoes: maquinaEstado.controles,
+          recomendacoesPadrao: maquinaEstado.controlesPadrao,)),
       );
     } catch (e) {
       showDialog(
@@ -93,7 +96,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ResultPage(
-          recomendacoes: maquinaEstado.controles,)),
+          recomendacoes: maquinaEstado.controles, recomendacoesPadrao: maquinaEstado.controlesPadrao)),
       );
     } catch (e) {
       showDialog(

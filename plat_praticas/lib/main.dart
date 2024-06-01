@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:plat_praticas/common/mensagem_erro.dart';
 import 'package:plat_praticas/maquina_estado.dart';
-import 'package:plat_praticas/resultados.dart';
-
-import 'mensagem_erro.dart';
+import 'package:plat_praticas/resultados/resultados.dart';
+import 'package:step_progress_indicator/step_progress_indicator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -16,7 +16,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Questionário de práticas para ambientes cloud AWS',
       theme: ThemeData(
-
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
@@ -47,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
   }
 
-  void carregarTabela() async {
+  Future<List<List<String>>> carregarTabela() async {
     try {
       await maquinaEstado.validarTabela();
       maquinaEstado.listarControlesPadroes();
@@ -55,6 +54,8 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         perguntaAtual = maquinaEstado.getPergunta();
       });
+
+
     } catch (e) {
       showDialog(
         context: context,
@@ -63,6 +64,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
     }
+    return maquinaEstado.tabelaEstado;
   }
 
   void respondeuSim() {
@@ -71,6 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
       getPergunta();
     } on StateError catch (e) {
       print("Erro de Estado: ${e.toString()}");
+      maquinaEstado.estadosPassados.removeLast();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ResultPage(
@@ -93,10 +96,13 @@ class _MyHomePageState extends State<MyHomePage> {
       getPergunta();
     } on StateError catch (e) {
       print("Erro de Estado: ${e.toString()}");
+      maquinaEstado.estadosPassados.removeLast();
       Navigator.push(
         context,
         MaterialPageRoute(builder: (context) => ResultPage(
-          recomendacoes: maquinaEstado.controles, recomendacoesPadrao: maquinaEstado.controlesPadrao)),
+          recomendacoes: maquinaEstado.controles,
+          recomendacoesPadrao: maquinaEstado.controlesPadrao)
+        ),
       );
     } catch (e) {
       showDialog(
@@ -144,61 +150,102 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            SizedBox(
-              height: 150,
-              width: MediaQuery.of(context).size.width * 0.75,
-              child: Text(
-                perguntaAtual,
-                textAlign: TextAlign.center,
-                style: Theme.of(context).textTheme.headlineMedium,
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () => respondeuSim(),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  ),
-                  child: const Text(
-                    "Sim",
-                    style: TextStyle(fontSize: 30),
-                  ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          progresso(),
+          Column(
+            children: [
+              SizedBox(
+                height: 150,
+                width: MediaQuery.of(context).size.width * 0.75,
+                child: Text(
+                  perguntaAtual,
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineMedium,
                 ),
-                const SizedBox(width: 50),
-                ElevatedButton(
-                  onPressed: () => respondeuNao(),
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                  ),
-                  child: const Text(
-                    "Não",
-                    style: TextStyle(fontSize: 30),
-                  ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 50,),
-            ElevatedButton.icon(
-              onPressed: () => voltar(),
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-                elevation: 0
               ),
-              icon: const Icon(Icons.arrow_back),
-              label: const Text(
-                "Voltar",
-                style: TextStyle(fontSize: 30),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                    onPressed: () => respondeuSim(),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    ),
+                    child: const Text(
+                      "Sim",
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ),
+                  const SizedBox(width: 50),
+                  ElevatedButton(
+                    onPressed: () => respondeuNao(),
+                    style: ElevatedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                    ),
+                    child: const Text(
+                      "Não",
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ),
+                ],
               ),
+              const SizedBox(height: 50,),
+            ],
+          ),
+          ElevatedButton.icon(
+            onPressed: () => voltar(),
+            style: ElevatedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+              elevation: 0
             ),
-          ],
-        ),
+            icon: const Icon(Icons.arrow_back),
+            label: const Text(
+              "Voltar",
+              style: TextStyle(fontSize: 30),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+
+  Widget progresso() {
+    return FutureBuilder(
+      future: carregarTabela(),
+      builder: (context, snapshot) {
+
+        if(!snapshot.hasData) {
+          return const SizedBox();
+        }
+
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 8),
+          child: SizedBox(
+              width: MediaQuery.of(context).size.width * 0.75,
+              child: Column(
+                children: [
+                  Text(
+                    "Progresso atual: ${((maquinaEstado.progresso / (maquinaEstado.tabelaEstado.length-1))*100).floor()}%",
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                  const SizedBox(height: 20,),
+                  StepProgressIndicator(
+                    totalSteps: maquinaEstado.tabelaEstado.length - 1,
+                    currentStep: maquinaEstado.progresso,
+                    size: 30,
+                    padding: 0,
+                    selectedColor: Colors.deepPurple,
+                    unselectedColor: Colors.grey,
+                    roundedEdges: const Radius.circular(10),
+                  ),
+                ],
+              )
+          ),
+        );
+      },
     );
   }
 

@@ -1,6 +1,8 @@
-import 'package:plat_praticas/util.dart';
+import 'package:plat_praticas/common/util.dart';
 
 class MaquinaEstado {
+
+  int progresso = 1;
 
   int estadoAtual = 2;
 
@@ -61,35 +63,44 @@ class MaquinaEstado {
   void voltar() {
     if(estadosPassados.length <= 1) {
       estadoAtual = 2;
+      progresso = 1;
       controles = [];
       return;
     }
 
     controles = controlesPassados.removeLast();
     estadoAtual = estadosPassados.removeLast();
+    progresso--;
   }
 
   String getPergunta() {
-    return tabelaEstado[estadoAtual][1];
+    return "$progresso. ${tabelaEstado[estadoAtual][1]}";
   }
 
   void respostaSim() {
+    estadoAtual =
+        Util.encontrarIndicePorId(tabelaEstado, tabelaEstado[estadoAtual][4]);
+
     estadosPassados.add(estadoAtual);
     controlesPassados.add(copiaLiteral(controles));
+    progresso++;
+
     var controlesSim = tabelaEstado[estadoAtual][2];
 
     controles.addAll(controlesSim.split('\n').where((c) {
       String trimmed = c.trim();
       return trimmed.isNotEmpty && !controles.contains(trimmed);
     }));
-
-    estadoAtual =
-        Util.encontrarIndicePorId(tabelaEstado, tabelaEstado[estadoAtual][4]);
   }
 
   void respostaNao() {
+    estadoAtual =
+        Util.encontrarIndicePorId(tabelaEstado, tabelaEstado[estadoAtual][5]);
+
     estadosPassados.add(estadoAtual);
     controlesPassados.add(copiaLiteral(controles));
+    progresso++;
+
     var controlesNao = tabelaEstado[estadoAtual][3];
 
     controles.addAll(controlesNao.split('\n').where((c) {
@@ -97,8 +108,6 @@ class MaquinaEstado {
       return trimmed.isNotEmpty && !controles.contains(trimmed);
     }));
 
-    estadoAtual =
-        Util.encontrarIndicePorId(tabelaEstado, tabelaEstado[estadoAtual][5]);
   }
 
   List<String> copiaLiteral(List<String> list) {
